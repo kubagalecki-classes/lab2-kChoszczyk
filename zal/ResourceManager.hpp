@@ -21,11 +21,12 @@ public:
         }
     ResourceManager& operator=(const ResourceManager&)
     {
+      res = new Resource;
         return *this;
     }
     ResourceManager& operator=(ResourceManager&& resMan)
     {
-        //return *this;
+        return *this;
         //delete resMan;
     }
     ~ResourceManager()
