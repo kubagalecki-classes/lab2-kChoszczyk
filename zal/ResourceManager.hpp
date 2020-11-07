@@ -19,10 +19,11 @@ public:
         //*this->res = resMan.res;
         //delete resMan.res; 
         }
-    ResourceManager& operator=(const ResourceManager&)
+    ResourceManager& operator=(const ResourceManager& resMan)
     {
       res = new Resource;
-        return *this -> res;
+      *this->res = *resMan.res;
+        return *this;
     }
     ResourceManager& operator=(ResourceManager&& resMan)
     {
