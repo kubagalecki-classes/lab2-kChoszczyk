@@ -92,69 +92,39 @@ const size_t Resource::get_index = []() {
 class ResourceManager
 {
 public:
-    ResourceManager()
+    ResourceManager() : res(*new Resource) {}
+
+    ResourceManager(const ResourceManager& arg) : res(*new Resource = arg.res) {}
+
+    ResourceManager(ResourceManager&& arg) : res(arg.res) {}
+
+    ResourceManager& operator=(const ResourceManager& arg)
     {
-        j = 1;
-        // i   = 1;
-        res = new Resource;
-        cout << "Create resMan 1 nr " << j << endl;
-    }
-    ResourceManager(const ResourceManager& resMan)
-    {
-        j = 2;
-        // i = 2;
-        cout << "Create resMan 2 nr " << j << endl;
-        res        = new Resource;
-        *this->res = *resMan.res;
-    }
-    ResourceManager(ResourceManager&& resMan)
-    {
-        res        = new Resource;
-        *this->res = *resMan.res;
-        cout << "Create resMan 3 nr " << j << endl;
-        delete resMan.res;
-    }
-    ResourceManager& operator=(const ResourceManager&)
-    {
-        cout << "Create resMan 4 nr " << j << endl;
+        res = arg.res;
         return *this;
     }
-    ResourceManager& operator=(ResourceManager&& resMan)
-    {
-        cout << "Create resMan 5 nr " << j << endl;
-        return *this;
-        delete resMan.res;
-    }
-    ~ResourceManager()
-    {
-        delete res;
-        cout << "Delete resMan nr " << j << endl;
-    }
 
-    Resource* res;
-    int       j;
-    // int    i;
+    ResourceManager& operator=(ResourceManager&&) { return *this; }
 
-    double get()
-    {
-        cout << "size of res " << sizeof(*res) << endl;
-        cout << "Resource get " << res->get() << endl;
-        return res->get();
-    }
+    ~ResourceManager() { delete &res; }
+
+    Resource& res;
+
+    double get() { return (res.get()); }
 };
 
 int main()
 {
-    // Resource        reso;
-    ResourceManager resMan;
-    ResourceManager resMan2{resMan};
+    {
+        ResourceManager rm1;
+        ResourceManager rm2{rm1};
+        cout << "rm1get " << rm1.get() << " == " << rm2.get() << " rm2get" << endl;
+        ResourceManager rm3;
+        rm3 = rm2;
+        cout << "rm3get " << rm3.get() << " == " << rm2.get() << " rm2get" << endl;
+    }
+    cout << "ConstructionTracker.live == " << ConstructionTracker::live << endl;
 
-    // ResourceManager resMan3{resMan2};
-    // cout << sizeof(resman) << endl;
-    cout << "resMan " << sizeof(resMan) << endl;
-    cout << "Res Man get " << resMan.get() << endl;
-    cout << "resMan2 " << sizeof(resMan2) << endl;
-    cout << "Res Man 2 get " << resMan2.get() << endl;
     return 0;
 }
 
