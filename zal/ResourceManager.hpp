@@ -14,17 +14,19 @@ public:
         res        = new Resource;
         *this->res = *resMan.res;
     }
-    ResourceManager(ResourceManager&&) {res        = new Resource;
-        *this->res = *resMan.res;
-        delete resMan.res; }
+    ResourceManager(ResourceManager&&) {
+      //res        = new Resource;
+        //*this->res = resMan.res;
+        //delete resMan.res; 
+        }
     ResourceManager& operator=(const ResourceManager&)
     {
         return *this;
     }
-    ResourceManager& operator=(ResourceManager&&)
+    ResourceManager& operator=(ResourceManager&& resMan)
     {
-        return *this;
-        delete resMan.res;
+        //return *this;
+        //delete resMan;
     }
     ~ResourceManager()
     {
