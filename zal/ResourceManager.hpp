@@ -22,7 +22,7 @@ public:
     ResourceManager& operator=(const ResourceManager&)
     {
       res = new Resource;
-        return *this;
+        return *this -> res;
     }
     ResourceManager& operator=(ResourceManager&& resMan)
     {
